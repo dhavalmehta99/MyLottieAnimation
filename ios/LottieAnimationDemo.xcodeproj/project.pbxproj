@@ -431,6 +431,8 @@
 			baseConfigurationReference = 0E87A0888C0B35CFD2AEF75F /* Pods-LottieAnimationDemo-LottieAnimationDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				DEVELOPMENT_TEAM = JUGDE9K6Y2;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -458,7 +460,9 @@
 			baseConfigurationReference = 00F6D31F1499DEFAE2C66AA0 /* Pods-LottieAnimationDemo-LottieAnimationDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = JUGDE9K6Y2;
 				INFOPLIST_FILE = LottieAnimationDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
