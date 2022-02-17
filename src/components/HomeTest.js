@@ -7,7 +7,7 @@ const HomeTest = (params) => {
         <>
             <View>
                 <Text>Home Test</Text>
-                <Text>Release Android Build - With Signed Credentials 1.0</Text>
+                <Text>Deploy Android build - 1.0</Text>
             </View>
         </>
     )
