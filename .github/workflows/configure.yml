@@ -1,0 +1,113 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # 2
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # 3
+    - name: Install dependencies
+      run: npm install
+  
+    # 4
+    # - name: Run the tests
+    #  run: npm test
+      
+  build-android:
+    name: Generate Android Release
+    runs-on: ubuntu-latest
+    steps: 
+      # 1
+      - uses: actions/checkout@v2
+      
+      # 2
+      - name: Install dependencies
+        run: |
+          npm install
+      
+      # 3
+      - name: Generate Android Release
+        run: |
+          cd android && ./gradlew bundleRelease
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+      
+      #    cd android && ./gradlew assembleRelease
+            
+      
+      # 4
+      - name: Sign APK/AAB
+        uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_app
+        with:
+          #releaseDirectory: android/app/build/outputs/apk/release/
+          releaseDirectory: android/app/build/outputs/bundle/release/
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      
+      # 5
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          #name: lottieAnimationDemo-app-release.aab
+          #path: android/app/build/outputs/apk/release/
+          path: android/app/build/outputs/bundle/release/
+          retention-days: 1
+      
+      # 6
+      #- name: Download artifact
+      #  uses: actions/download-artifact@v2
+      #  with:
+      #    name: lottieAnimationDemo-app-release.apk
+      #    path: android/app/build/outputs/apk/release/
+      
+      # 7
+      #- name: Upload artifact to Firebase App Distribution
+      #  uses: wzieba/Firebase-Distribution-Github-Action@v1
+      #  with:
+      #    appId: ${{secrets.FIREBASE_APP_ID}}
+      #    token: ${{secrets.FIREBASE_TOKEN}}
+      #    groups: Tester
+          #file: android/app/build/outputs/apk/release/app-release-signed.apk
+      #    file: android/app/build/outputs/bundle/release/app-release.aab
+          
+      # 8 - Deploy App to Play store
+      - name: Publish to Play Store internal test track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.lottieanimationdemo
+          #releaseFile: android/app/build/outputs/apk/release/app-release-signed.apk
+          releaseFile: android/app/build/outputs/bundle/release/app-release.aab
+          #track: production
+          inAppUpdatePriority: 2
+          userFraction: 0.33
+          #track: internal
+          #userFraction: 0.50
+          # mappingFile: mapping.txt
