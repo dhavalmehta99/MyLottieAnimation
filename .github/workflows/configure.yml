@@ -105,9 +105,9 @@ jobs:
           packageName: com.lottieanimationdemo
           #releaseFile: android/app/build/outputs/apk/release/app-release-signed.apk
           releaseFile: android/app/build/outputs/bundle/release/app-release.aab
-          #track: production
-          inAppUpdatePriority: 2
-          userFraction: 0.33
+          track: production
+          inAppUpdatePriority: 3
+          userFraction: 0.50
           #track: internal
           #userFraction: 0.50
           # mappingFile: mapping.txt
