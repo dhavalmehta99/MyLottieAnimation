@@ -39,6 +39,7 @@ jobs:
     - uses: yukiarrr/ios-build-action@v1.5.0
       with:
         project-path: ios/LottieAnimationDemo.xcodeproj
+        export-method: development
         p12-base64: ${{ secrets.P12_BASE64 }}
         mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
         code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
