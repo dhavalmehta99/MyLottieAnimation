@@ -36,7 +36,7 @@ jobs:
       working-directory: ios
       name: Install pod dependencies
     - name: Build iOS (Debug)
-      run: |
-        xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo clean archive -configuration release \ -sdk iphoneos -archivePath LottieAnimationDemo.xcarchive -allowProvisioningUpdates
-        xcodebuild -exportArchive -archivePath ./LottieAnimationDemo.xcarchive -exportPath . -exportOptionsPlist LottieAnimationDemo/Info.plist
+      run: xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo clean archive -configuration release \ -sdk iphoneos -archivePath LottieAnimationDemo.xcarchive -allowProvisioningUpdates
       #run: "xcodebuild \ -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo \ clean archive \ -sdk iphoneos \ -configuration Debug \ -UseModernBuildSystem=NO \ -archivePath $PWD/LottieAnimationDemo \ CODE_SIGNING_ALLOWED=NO"
+    - name: Export iOS iPA (Debug)
+      run: xcodebuild -exportArchive -archivePath ./LottieAnimationDemo.xcarchive -exportPath . -exportOptionsPlist LottieAnimationDemo/Info.plist
