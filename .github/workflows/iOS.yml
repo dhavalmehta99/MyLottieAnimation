@@ -44,7 +44,18 @@ jobs:
         mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
         code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
         team-id: ${{ secrets.TEAM_ID }}
+        output-path: artifacts/output.ipa
         workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
+        
+    # 5
+    - name: Upload Artifact - iPA File
+      uses: actions/upload-artifact@v2
+      with:
+        name: output.ipa
+        #name: lottieAnimationDemo-app-release.aab
+        #path: android/app/build/outputs/apk/release/
+        path: artifacts/
+        retention-days: 1
     
     #- name: Build iOS (Debug)
     #  run: "xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -scheme LottieAnimationDemo -destination generic/platform=iOS -configuration Release archive -archivePath ./LottieAnimationDemo.xcarchive clean"
