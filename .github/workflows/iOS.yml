@@ -35,8 +35,18 @@ jobs:
     - run: pod install
       working-directory: ios
       name: Install pod dependencies
-    - name: Build iOS (Debug)
-      run: "xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -scheme LottieAnimationDemo -destination generic/platform=iOS -configuration Release archive -archivePath ./LottieAnimationDemo.xcarchive clean"
+    
+    - uses: yukiarrr/ios-build-action@v1.5.0
+      with:
+        project-path: Unity-iPhone.xcodeproj
+        p12-base64: ${{ secrets.P12_BASE64 }}
+        mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+        code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+        team-id: ${{ secrets.TEAM_ID }}
+        workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
+    
+    #- name: Build iOS (Debug)
+    #  run: "xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -scheme LottieAnimationDemo -destination generic/platform=iOS -configuration Release archive -archivePath ./LottieAnimationDemo.xcarchive clean"
       #run: xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo clean archive -configuration release \ -sdk iphoneos -archivePath LottieAnimationDemo.xcarchive -allowProvisioningUpdates
       
       #run: "xcodebuild \ -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo \ clean archive \ -sdk iphoneos \ -configuration Debug \ -UseModernBuildSystem=NO \ -archivePath $PWD/LottieAnimationDemo \ CODE_SIGNING_ALLOWED=NO"
