@@ -9,6 +9,7 @@ const HomeTest = (params) => {
                 <Text>Home Test</Text>
                 <Text>Deploy iOS build to firebase app distribution - 1.0</Text>
                 <Text>Deploy iOS build to firebase app distribution - 2.0</Text>
+                <Text>Deploy iOS build to firebase app distribution - 3.0</Text>
             </View>
         </>
     )
