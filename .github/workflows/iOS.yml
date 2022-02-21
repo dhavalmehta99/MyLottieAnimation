@@ -63,6 +63,7 @@ jobs:
         
   upload-ios:
     name: Upload to Firebase App Distribution
+    needs: build
     runs-on: ubuntu-latest
     steps:
       # 1
