@@ -39,7 +39,7 @@ jobs:
     
     # 3
     - name: Generate release iPA
-    - uses: yukiarrr/ios-build-action@v1.5.0
+      uses: yukiarrr/ios-build-action@v1.5.0
       with:
         project-path: ios/LottieAnimationDemo.xcodeproj
         export-method: development
