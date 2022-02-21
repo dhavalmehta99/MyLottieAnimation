@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: Setup and build
     runs-on: macos-latest
     steps:
     # 1
