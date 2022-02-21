@@ -53,13 +53,13 @@ jobs:
         retention-days: 1
         
     # 5
-    - name: Upload artifact to Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1
-      with:
-        appId: ${{secrets.FIREBASE_IOS_APP_ID}}
-        token: ${{secrets.FIREBASE_TOKEN}}
-        groups: Tester
-        file: artifacts/output.ipa
+    #- name: Upload artifact to Firebase App Distribution
+    #  uses: wzieba/Firebase-Distribution-Github-Action@v1
+    #  with:
+    #    appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+    #    token: ${{secrets.FIREBASE_TOKEN}}
+    #    groups: Tester
+    #    file: artifacts/output.ipa
         
   upload-ios:
     name: Upload to Firebase App Distribution
