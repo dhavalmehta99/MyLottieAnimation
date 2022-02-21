@@ -40,7 +40,8 @@ jobs:
         mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
         code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
         team-id: ${{ secrets.TEAM_ID }}
-        output-path: artifacts/output.ipa
+        #output-path: artifacts/output.ipa
+        output-path: output/output.ipa
         workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
         
     # 4
@@ -50,7 +51,8 @@ jobs:
         name: output.ipa
         #name: lottieAnimationDemo-app-release.aab
         #path: android/app/build/outputs/apk/release/
-        path: artifacts/
+        # path: artifacts/
+        path: output/
         retention-days: 1
         
     # 5
@@ -74,7 +76,8 @@ jobs:
           appId: ${{secrets.FIREBASE_IOS_APP_ID}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: Tester
-          file: artifacts/output.ipa
+          #file: artifacts/output.ipa
+          file: output.ipa
           
       #- name: Upload IPA
       #  uses: wzieba/Firebase-Distribution-Github-Action@v1.0.0
