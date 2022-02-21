@@ -25,6 +25,7 @@ jobs:
     - name: Checkout iOS repository
       uses: actions/checkout@v2
     
+    # 2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -36,6 +37,8 @@ jobs:
       working-directory: ios
       name: Install pod dependencies
     
+    # 3
+    - name: Generate release iPA
     - uses: yukiarrr/ios-build-action@v1.5.0
       with:
         project-path: ios/LottieAnimationDemo.xcodeproj
@@ -47,7 +50,7 @@ jobs:
         output-path: artifacts/output.ipa
         workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
         
-    # 5
+    # 4
     - name: Upload Artifact - iPA File
       uses: actions/upload-artifact@v2
       with:
@@ -56,6 +59,15 @@ jobs:
         #path: android/app/build/outputs/apk/release/
         path: artifacts/
         retention-days: 1
+        
+    # 5
+    - name: Upload artifact to Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1
+      with:
+        appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+        token: ${{secrets.FIREBASE_TOKEN}}
+        groups: Tester
+        file: artifacts/output.ipa
     
     #- name: Build iOS (Debug)
     #  run: "xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -scheme LottieAnimationDemo -destination generic/platform=iOS -configuration Release archive -archivePath ./LottieAnimationDemo.xcarchive clean"
