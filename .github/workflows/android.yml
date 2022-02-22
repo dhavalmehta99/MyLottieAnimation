@@ -18,97 +18,72 @@ jobs:
     # 1
     - name: Checkout repository
       uses: actions/checkout@v2
-
+    
     # 2
-    - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - name: Set up Ruby
+    - uses: actions/setup-ruby@v1
       with:
-        node-version: ${{ matrix.node-version }}
-
+        ruby-version: '2.6'
+    
     # 3
-    - name: Install dependencies
-      run: npm install
-  
-    # 4
-    # - name: Run the tests
-    #  run: npm test
-      
-  build-android:
-    name: Generate Android Release
-    runs-on: ubuntu-latest
-    steps: 
-      # 1
-      - uses: actions/checkout@v2
-      
-      # 2
-      - name: Install dependencies
-        run: |
-          npm install
-      
-      # 3
-      - name: Generate Android Release
-        run: |
-          cd android && ./gradlew bundleRelease
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-      
-      #  cd android && ./gradlew assembleRelease
-            
-      
-      # 4
-      - name: Sign APK/AAB
-        uses: r0adkll/sign-android-release@v1
-        # ID used to access action output
-        id: sign_app
-        with:
-          #releaseDirectory: android/app/build/outputs/apk/release/
-          releaseDirectory: android/app/build/outputs/bundle/release/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-      
-      # 5
-      #- name: Upload Artifact
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: app-release.aab
-          #name: lottieAnimationDemo-app-release.aab
-          #path: android/app/build/outputs/apk/release/
-      #    path: android/app/build/outputs/bundle/release/
-      #    retention-days: 1
-      
-      # 6
-      #- name: Download artifact
-      #  uses: actions/download-artifact@v2
-      #  with:
-      #    name: lottieAnimationDemo-app-release.apk
-      #    path: android/app/build/outputs/apk/release/
-      
-      # 7
-      - name: Upload artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: Tester
-          #file: android/app/build/outputs/apk/release/app-release-signed.apk
-          file: android/app/build/outputs/bundle/release/app-release.aab
+    - name: Cache Ruby - Bundler
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
           
-      # 8 - Deploy App to Play store
-      - name: Publish to Play Store internal test track
-        #uses: r0adkll/upload-google-play@v1
-        uses: r0adkll/upload-google-play@v1.0.15
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.lottieanimationdemo
-          #releaseFile: android/app/build/outputs/apk/release/app-release-signed.apk
-          releaseFile: android/app/build/outputs/bundle/release/app-release.aab
-          track: production
-          #track: internal
-          inAppUpdatePriority: 3
-          userFraction: 0.50
-          #userFraction: 0.50
-          # mappingFile: mapping.txt
+    # 4
+    - name: Cache Gradle
+      uses: actions/cache@v1
+      with:
+        path: ~/.gradle/caches/
+        key: cache-clean-gradle-${{ matrix.os }}-${{ matrix.jdk }}
+    
+    # 5
+    - name: Cache Gradle Wrapper
+      uses: actions/cache@v1
+      with:
+        path: ~/.gradle/wrapper/
+        key: cache-clean-wrapper-${{ matrix.os }}-${{ matrix.jdk }}
+    
+    # 6
+    - name: Grant Permission to Execute
+      run: chmod +x gradlew
+    
+    # 7
+    - name: Install bundle
+      run: |
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+        
+    # 8
+    - name: Configure Keystore
+      run: |
+        echo "$SERVICE_ACCOUNT_JSON" > keystore.jks.b64
+        base64 -d -i keystore.jks.b64 > app/keystore.jks
+        echo "storeFile=keystore.jks" >> keystore.properties
+        echo "keyAlias=$ALIAS" >> keystore.properties
+        echo "storePassword=$KEY_STORE_PASSWORD" >> keystore.properties
+        echo "keyPassword=$KEY_PASSWORD" >> keystore.properties
+      env:
+        ANDROID_KEYSTORE_FILE: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        KEYSTORE_KEY_ALIAS: ${{ secrets.ALIAS }}
+        KEYSTORE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        KEYSTORE_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+
+    # 9
+    - name: Create Firebase Service Credentials file
+      run: |
+        echo "$FIREBASE_CREDENTIALS" > firebase_credentials.json.b64
+        base64 -d -i firebase_credentials.json.b64 > firebase_credentials.json
+      env:
+        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+
+    # 10
+    - name: Distribute app with 🔥 App Distribution 🚀
+      run: bundle exec fastlane distribute
+      env:
+        FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+  
