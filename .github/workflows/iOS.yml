@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: iOS YML - Build, Test and Deploy iPA
+name: iOS - Build, Test and Deploy iPA
 
 on:
   push:
@@ -11,86 +11,11 @@ on:
 
 jobs:
   build:
-    name: Setup and build
     runs-on: macos-latest
     steps:
-    # 1
-    - name: Checkout iOS repository
-      uses: actions/checkout@v2
-    
-    # 2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: xcode-select -p
-    - run: pod install
-      working-directory: ios
-      name: Install pod dependencies
-    
-    # 3
-    - name: Generate release iPA
-      uses: yukiarrr/ios-build-action@v1.5.0
-      with:
-        project-path: ios/LottieAnimationDemo.xcodeproj
-        export-method: development
-        p12-base64: ${{ secrets.P12_BASE64 }}
-        mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
-        code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
-        team-id: ${{ secrets.TEAM_ID }}
-        #output-path: artifacts/output.ipa
-        output-path: output/output.ipa
-        workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
-        
-    # 4
-    - name: Upload Artifact - iPA File
-      uses: actions/upload-artifact@v2
-      with:
-        name: output.ipa
-        #name: lottieAnimationDemo-app-release.aab
-        #path: android/app/build/outputs/apk/release/
-        # path: artifacts/
-        path: output/
-        retention-days: 1
-        
-    # 5
-    #- name: Upload artifact to Firebase App Distribution
-    #  uses: wzieba/Firebase-Distribution-Github-Action@v1
-    #  with:
-    #    appId: ${{secrets.FIREBASE_IOS_APP_ID}}
-    #    token: ${{secrets.FIREBASE_TOKEN}}
-    #    groups: Tester
-    #    file: artifacts/output.ipa
-        
-  upload-ios:
-    name: Upload to Firebase App Distribution
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      # 1
-     - name: Upload artifact to Firebase App Distribution
-       uses: wzieba/Firebase-Distribution-Github-Action@v1
-       with:
-          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: Tester
-          #file: artifacts/output.ipa
-          file: output.ipa
-          
-      #- name: Upload IPA
-      #  uses: wzieba/Firebase-Distribution-Github-Action@v1.0.0
-      #  with:
-      #    appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
-      #    token: ${{ secrets.FIREBASE_TOKEN }}
-      #    groups: testerIos
-      #    file: Runner.ipa
-    
-    #- name: Build iOS (Debug)
-    #  run: "xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -scheme LottieAnimationDemo -destination generic/platform=iOS -configuration Release archive -archivePath ./LottieAnimationDemo.xcarchive clean"
-      #run: xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo clean archive -configuration release \ -sdk iphoneos -archivePath LottieAnimationDemo.xcarchive -allowProvisioningUpdates
-      
-      #run: "xcodebuild \ -workspace ios/LottieAnimationDemo.xcworkspace \ -scheme LottieAnimationDemo \ clean archive \ -sdk iphoneos \ -configuration Debug \ -UseModernBuildSystem=NO \ -archivePath $PWD/LottieAnimationDemo \ CODE_SIGNING_ALLOWED=NO"
-    #- name: Export iOS iPA (Debug)
-    #  run: xcodebuild -exportArchive -archivePath ./LottieAnimationDemo.xcarchive -exportPath . -exportOptionsPlist LottieAnimationDemo/Info.plist
+      - name: Check out repo        
+        #uses: actions/checkout@v2
+      - run: echo "iOS YML Executes"
+      #- run: echo " Print a single environment variable (the commit SHA ) - ${{ github.sha }} "
+      - run: echo "Print all environment variables"
+      - run:  env
