@@ -51,7 +51,8 @@ jobs:
     # 6
     - name: Grant Permission to Execute
       #run: chmod +x ./gradlew
-      run: chmod 777 ./gradlew
+      run: chmod +x /.gradlew
+      #run: chmod 777 ./gradlew
     
     # 7
     - name: Install bundle
