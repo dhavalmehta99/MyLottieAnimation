@@ -51,7 +51,7 @@ jobs:
     # 6
     - name: Grant Permission to Execute
       #run: chmod +x ./gradlew
-      run: chmod +x /.gradlew
+      run: cd android && chmod +x ./gradlew
       #run: chmod 777 ./gradlew
     
     # 7
