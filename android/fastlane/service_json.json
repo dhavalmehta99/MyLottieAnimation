@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "lottieanimationdemo",
+  "private_key_id": "57762978c7e5905a6d1c1bb3e76756c24e643f06",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDQ1JWeF6qPGJxJ\n8EAWm8HH4Ze1N8rfpuDHYSC4w+Bfj4ofL1pcHFAx/Sk2R9RKGmua5gk9PGN+eueP\na0EWdNtCAQn/ZmzjfbqGt+dNUA93wCi8hLT0W35u2Z9c+7WnZaBjlX/cMhiJBNsL\ngO9KT5SVrq9fI5TGfPVeOMl6cPokFJip5tYlNQez6rIQxGJk/fUJZzygskd0/G0z\n6mdrX6VCiOUQEp2clm0uO/RJYqr4lqq2guyiwuC2f+bne/EhSlrQ4tgVxJyWrVWm\nBHrTJins9Zuj3JffvEUNpcMErTDNcPPkG30g/9gE13Woy7xFLjL2AX3MRfWlTOyi\ndcK1Q/AVAgMBAAECggEADuggi/9IJgci35Dzn4mGciReMMnm70MZctyx5MPastzr\nW6GE3jlegiBTqPPEqXYsWItzfQ21U8nQg2eBEb94B+9MuDtRVNsx4ub4GbKNgBtV\nQmu+Al67mOHA+KFhIgNk87wwEIGk8wxH2eYzbpxdULf+UxjA8yWSsE32bTPpBIUw\n17j+ZtJXBV6ov8ShL4cLgAF0lEz0t+FbSzYb3ugs0OPptNLKjIORovvPp/n4XMP3\n1N5beEAzTSgfBfzwc3gQGM50brU6eIaJudnSH6VUVjnWiV+Y5FyvzOxMTH2T8ORu\now4VfcZGVopVDHdq7JLNceVtWfKsgXBd1kOjiTOSewKBgQDr6KNw+K22BGkxiahJ\nv5wZBMbReigXtj43ePdKB8f4X3ewSJUK4p2Om09xs+Qjql0fCWhK3naZcdLcMx5O\nRtE3IsEnXuNZsQ6NYA6zqrSZUXRMbopSgh3w6BVYC+jjudAGbh/6BLb/gjyswcw/\noeWIrp3LiyRFMZHJNThq+TGZywKBgQDinZM1wg/xIC/8mKemVz6Ujp7WCVpGrsTl\nDDMI+gyFyMm5dXGWOu/gqzIw99nEvuzt2QkjhDx4TFK0JWo5wVGETwV8chglqU6C\nWngguygZ5L3ICrHK3OqcntLGVUNqZCZ5yasKXUezFMSGHZzYyBJ63o7CIXbZS8zD\nGWWzxJ7hnwKBgBAKOVKtFeKSWjSsD200QgDRelMz4xX5pjFPYEEAVnBkzVaHGNss\nnVnc5YHtoU1rf/lkQlsU1SuJubSPJThdSExfaJKsuPiYOU0TguxkZvMlvqqTuYPy\npOaEYS8jYCpbr/E/+5ycRXUJ/eYhJyoMb/bjKId2Znjt7eOoYrWjS+QRAoGAf2IC\nCNrgKTNlpgCNZKRwCgOtZzT0qPy+st3LpkUgWueF9Rj+U2snwcuZuArqP3zvI7e3\nOl6vuxNz/c12S6bOUqg0tkJQLoNgHUgLdKKfpQZ+Y38Xd6f8vTNN2ay964UGV7kz\nyuyqTBDlc1ob+4NjV+vYpWk4LGc+X4DcOVPR15MCgYB0lt4ImFcDPDZwoWAgEt+K\ncQ/Ch0A2KhfrsO00Sym8TmamJ6xj68c5MVfEwLEkZ450SaHw61Z5MixGZ9kZaBpj\naf9mijO+QK0mFT5qZ9JLuBXsbxp2r8zzqY/Y4ph7KprmkSP1LaxphoWdN7STGWQP\nFif9G9xIP5uqcHK3+kud9Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "lottie-animation-service-accou@lottieanimationdemo.iam.gserviceaccount.com",
+  "client_id": "107846972574178017721",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lottie-animation-service-accou%40lottieanimationdemo.iam.gserviceaccount.com"
+}
