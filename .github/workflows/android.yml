@@ -85,7 +85,7 @@ jobs:
 
     # 10
     - name: Distribute app with 🔥 App Distribution 🚀
-      run: bundle exec fastlane distribute
+      run: cd android && bundle exec fastlane distribute
       env:
         FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
   
