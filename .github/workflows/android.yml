@@ -56,10 +56,10 @@ jobs:
     
     # 7
     - name: Install bundle
-      run: |
-        bundle config path vendor/bundle
-        bundle install --jobs 4 --retry 3
-        
+      run: cd android && bundle install
+        #|
+        #bundle config path vendor/bundle
+      
     # 8
     - name: Configure Keystore
       run: |
