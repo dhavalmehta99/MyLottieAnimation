@@ -1,0 +1,78 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  
+  desc "Build for ios"
+  lane :build do |options|
+    # Create a custom keychain for code signing
+    create_keychain(
+      name: 'keychain',
+      password: 'password',
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+
+    match(
+      storage_mode: 'git',
+      type: "appstore",
+      keychain_name: 'keychain',
+      keychain_password: 'password',
+      readonly: true,
+      git_url: 'https/github/url' ## where secrets is hosted.
+    )
+
+    # Building the iOS app
+    gym(
+      workspace: "./LottieAnimationDemo.xcworkspace",
+      include_bitcode: true,
+      include_symbols: true,
+      silent: true,
+      clean: true,
+      scheme: "LottieAnimationDemo",
+      export_method: "app-store"
+    )
+  end
+
+  # desc "Upload to testflight"
+  # lane :testflight_release_to_app_store do |options|
+  #   build
+  #   upload_to_testflight(
+  #     skip_submission: true,
+  #     skip_waiting_for_build_processing: true
+  #   )
+  # end
+
+  # desc "Upload to production"
+  # lane :production_release_to_app_store do |options|
+  #   build
+  #   upload_to_app_store(
+  #     skip_screenshots: true,
+  #     skip_metadata: true
+  #   )
+  # end
+  
+  
+  # desc "Push a new beta build to TestFlight"
+  # lane :beta do
+  #   increment_build_number(xcodeproj: "LottieAnimationDemo.xcodeproj")
+  #   build_app(workspace: "LottieAnimationDemo.xcworkspace", scheme: "LottieAnimationDemo")
+  #   upload_to_testflight
+  # end
+end
