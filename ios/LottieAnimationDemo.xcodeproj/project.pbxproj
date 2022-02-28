@@ -431,8 +431,8 @@
 			baseConfigurationReference = 0E87A0888C0B35CFD2AEF75F /* Pods-LottieAnimationDemo-LottieAnimationDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = JUGDE9K6Y2;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -464,8 +464,8 @@
 			baseConfigurationReference = 00F6D31F1499DEFAE2C66AA0 /* Pods-LottieAnimationDemo-LottieAnimationDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = JUGDE9K6Y2;
@@ -495,7 +495,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JUGDE9K6Y2;
@@ -512,7 +512,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.logistic.pushtest;
 				PRODUCT_NAME = LottieAnimationDemo;
-				PROVISIONING_PROFILE_SPECIFIER = Dev_pushtest;
+				PROVISIONING_PROFILE_SPECIFIER = Dist_PushTest;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -525,7 +525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JUGDE9K6Y2;
@@ -541,7 +541,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.logistic.pushtest;
 				PRODUCT_NAME = LottieAnimationDemo;
-				PROVISIONING_PROFILE_SPECIFIER = Dev_pushtest;
+				PROVISIONING_PROFILE_SPECIFIER = Dist_PushTest;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
