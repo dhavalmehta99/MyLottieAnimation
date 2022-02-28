@@ -30,7 +30,8 @@ jobs:
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7.2
+          ruby-version: 3.1.0
+          #ruby-version: 2.7.2
         #with:
         #   ruby-version: 2.7.2
         #   bundler-cache: true
