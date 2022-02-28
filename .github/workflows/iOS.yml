@@ -27,22 +27,33 @@ jobs:
           node-version: '10.x'
           
       # 2
-      - name: Login Github User
-        run: echo -e "machine github.com\n  login $PERSONAL_ACCESS_TOKEN" >> ~/.netrc
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          
+      - name: Set up ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+           ruby-version: 2.7.2
+           bundler-cache: true
+ 
       # 3
-      - name: Install packages
-        run: |
-          npm install
-          
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v1
+        with:
+           p12-file-base64: ${{ secrets.IOS_DIST_SIGNING_KEY }}
+           p12-password: ${{ secrets.IOS_DIST_SIGNING_KEY_PASSWORD }}
+    
       # 4
-      - name: Bundle and Upload to Testflight - AppStore
-        run: |
-          cd ios && pod install
-          fastlane ios testflight_release_to_app_store
+      - name: Build & upload iOS binary
+        run: bundle exec fastlane ios build_deploy_release
         env:
-          FASTLANE_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          #MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+         ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+         ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+         ASC_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+         KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
+ 
+      # 5
+      - name: Upload app-store ipa and dsyms to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+         name: app-store ipa & dsyms
+         path: |
+           ${{ github.workspace }}/example-iOS.ipa
+           ${{ github.workspace }}/*.app.dSYM.zip
