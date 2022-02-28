@@ -37,16 +37,16 @@ jobs:
       - name: Import Code-Signing Certificates
         uses: Apple-Actions/import-codesign-certs@v1
         with:
-           p12-file-base64: ${{ secrets.IOS_DIST_SIGNING_KEY }}
-           p12-password: ${{ secrets.IOS_DIST_SIGNING_KEY_PASSWORD }}
+           p12-file-base64: ${{ secrets.DIST_CERT_BASE64 }}
+           p12-password: ${{ secrets.DIST_CERT_P12_PASSWORD }}
     
       # 4
       - name: Build & upload iOS binary
         run: bundle exec fastlane ios build_deploy_release
         env:
-         ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-         ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-         ASC_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+         ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
+         ASC_ISSUER_ID: ${{ secrets.APPCONNECT_API_ISSUER }}
+         ASC_KEY: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
          KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
  
       # 5
