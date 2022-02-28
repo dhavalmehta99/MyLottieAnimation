@@ -42,15 +42,13 @@ jobs:
     
       # 4
       - name: Build & upload iOS binary
-        run: |
-          #cd ios && pod install
-          fastlane ios deploy_production
+        run: fastlane ios deploy_production
         #run: bundle exec fastlane ios build_upload_testflight
         env:
          ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
          ASC_ISSUER_ID: ${{ secrets.APPCONNECT_API_ISSUER }}
          ASC_KEY: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
-         KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
+         #KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
  
       # 5
       #- name: Upload app-store ipa and dsyms to artifacts
