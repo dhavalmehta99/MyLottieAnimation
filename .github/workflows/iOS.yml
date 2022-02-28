@@ -42,7 +42,7 @@ jobs:
     
       # 4
       - name: Build & upload iOS binary
-        run: fastlane ios deploy_production
+        run: bundle exec fastlane ios deploy_production
         #run: bundle exec fastlane ios build_upload_testflight
         env:
          ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
