@@ -30,7 +30,7 @@ jobs:
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.8
+          ruby-version: 2.6.8 # Used this version in local
           bundler-cache: true
           #ruby-version: 3.1.0
           #ruby-version: 2.7.2
@@ -45,8 +45,7 @@ jobs:
       # 4
       - name: Install packages
         run: npm install
-        
-      
+
       # 2.1
       #- name : Install/Update Bundler Forcefully
       #  run: |
@@ -69,7 +68,7 @@ jobs:
     
       # 6
       - name: Build & upload iOS binary
-        run: cd ios && bundle exec fastlane ios deploy_production
+        run: cd ios && bundle exec fastlane ios build_upload_testflight
         #run: bundle exec fastlane ios build_upload_testflight
         env:
          ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
