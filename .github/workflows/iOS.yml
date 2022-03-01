@@ -74,7 +74,7 @@ jobs:
          APPCONNECT_API_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
          APPCONNECT_API_ISSUER: ${{ secrets.APPCONNECT_API_ISSUER }}
          APPCONNECT_API_KEY_PRIVATE: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
-         KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
+         KEYCHAIN_PATH: ~/Library/Keychains/login.keychain-db
         #env:
         # ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
         # ASC_ISSUER_ID: ${{ secrets.APPCONNECT_API_ISSUER }}
