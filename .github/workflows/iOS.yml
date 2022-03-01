@@ -40,7 +40,7 @@ jobs:
         
     
       - name: Install Fastlane
-        run: bundle install
+        run: cd ios && bundle install
 
       - name: Install packages
         run: npm install
