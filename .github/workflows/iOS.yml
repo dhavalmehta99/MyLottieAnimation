@@ -30,7 +30,9 @@ jobs:
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.0
+          ruby-version: 2.6.8
+          bundler-cache: true
+          #ruby-version: 3.1.0
           #ruby-version: 2.7.2
         #with:
         #   ruby-version: 2.7.2
@@ -38,11 +40,12 @@ jobs:
         
       
       # 2.1
-      - name : Install/Update Bundler Forcefully
-        run: |
-          gem update --system
-          gem update bundler
-          gem install bundler
+      #- name : Install/Update Bundler Forcefully
+      #  run: |
+      #    gem update --system
+      #    gem update bundler
+      #    gem install bundler
+          
       #    sudo gem update --system
       #    echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
       #    source $BASH_ENV
