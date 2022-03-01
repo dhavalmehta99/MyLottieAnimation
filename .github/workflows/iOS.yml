@@ -38,10 +38,11 @@ jobs:
         #   ruby-version: 2.7.2
         #   bundler-cache: true
         
-    
+      # 3
       - name: Install Fastlane
         run: cd ios && bundle install
 
+      # 4
       - name: Install packages
         run: npm install
         
@@ -59,14 +60,14 @@ jobs:
       #    gem install bundler -v "1.17.2"
       #  # gem install bundler
  
-      # 3
+      # 5
       - name: Import Code-Signing Certificates
         uses: Apple-Actions/import-codesign-certs@v1
         with:
            p12-file-base64: ${{ secrets.DIST_CERT_BASE64 }}
            p12-password: ${{ secrets.DIST_CERT_P12_PASSWORD }}
     
-      # 4
+      # 6
       - name: Build & upload iOS binary
         run: cd ios && bundle exec fastlane ios deploy_production
         #run: bundle exec fastlane ios build_upload_testflight
@@ -74,9 +75,9 @@ jobs:
          ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
          ASC_ISSUER_ID: ${{ secrets.APPCONNECT_API_ISSUER }}
          ASC_KEY: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
-         #KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
+         KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
  
-      # 5
+      # 7
       #- name: Upload app-store ipa and dsyms to artifacts
       #  uses: actions/upload-artifact@v2
       #  with:
