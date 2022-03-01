@@ -38,6 +38,13 @@ jobs:
         #   ruby-version: 2.7.2
         #   bundler-cache: true
         
+    
+      - name: Install Fastlane
+        run: bundle install
+
+      - name: Install packages
+        run: npm install
+        
       
       # 2.1
       #- name : Install/Update Bundler Forcefully
