@@ -1,4 +1,4 @@
-git_url("https://github.com/dhavalmehta99/MyLottieAnimation/tree/main/ios/cert")
+git_url("https://github.com/dhavalmehta99/certificate")
 
 storage_mode("git")
 
