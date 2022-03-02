@@ -46,7 +46,7 @@ platform :ios do
 		  in_house: false
 		)
 		
-		increment_build_number(xcodeproj: "your_project_name.xcodeproj")
+		increment_build_number(xcodeproj: "LottieAnimationDemo.xcodeproj")
 		
 		cocoapods(
 		  clean_install: true
@@ -64,8 +64,8 @@ platform :ios do
 	
 		gym(
 		  configuration: "Release",
-		  workspace: "your_project_workspace.xcworkspace",
-		  scheme: "your_schema",
+		  workspace: "LottieAnimationDemo.xcworkspace",
+		  scheme: "LottieAnimationDemo",
 		  export_method: "app-store",
 		  export_options: {
 			provisioningProfiles: { 
@@ -81,7 +81,7 @@ platform :ios do
 		  skip_submission: true,
 		  distribute_external: false,
 		  notify_external_testers: false,
-		  ipa: "./your_app_name.ipa"
+		  ipa: "./LottieAnimationDemo.ipa"
 		)
 	
 		delete_temp_keychain(keychain_name)
