@@ -26,66 +26,22 @@ jobs:
         with:
           node-version: '10.x'
           
-      # 2
-      - name: Set up ruby env
-        uses: ruby/setup-ruby@v1
+      - name: Deploy iOS Beta to TestFlight via Fastlane
+        uses: maierj/fastlane-action@v1.4.0
         with:
-          ruby-version: 2.6.8 # Used this version in local
-          bundler-cache: true
-          #ruby-version: 3.1.0
-          #ruby-version: 2.7.2
-        #with:
-        #   ruby-version: 2.7.2
-        #   bundler-cache: true
-        
-      # 3
-      - name: Install Fastlane
-        run: cd ios && bundle install
-
-      # 4
-      - name: Install packages
-        run: npm install
-
-      # 2.1
-      #- name : Install/Update Bundler Forcefully
-      #  run: |
-      #    gem update --system
-      #    gem update bundler
-      #    gem install bundler
-          
-      #    sudo gem update --system
-      #    echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-      #    source $BASH_ENV
-      #    gem install bundler -v "1.17.2"
-      #  # gem install bundler
- 
-      # 5
-      - name: Import Code-Signing Certificates
-        uses: Apple-Actions/import-codesign-certs@v1
-        with:
-           p12-file-base64: ${{ secrets.DIST_CERT_BASE64 }}
-           p12-password: ${{ secrets.DIST_CERT_P12_PASSWORD }}
-    
-      # 6
-      - name: Build & upload iOS binary
-        run: cd ios && bundle exec fastlane ios build_upload_testflight
-        #run: bundle exec fastlane ios build_upload_testflight
+          lane: closed_beta
         env:
-         APPCONNECT_API_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
-         APPCONNECT_API_ISSUER: ${{ secrets.APPCONNECT_API_ISSUER }}
-         APPCONNECT_API_KEY_PRIVATE: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
-         KEYCHAIN_PATH: ~/Library/Keychains/login.keychain-db
-        #env:
-        # ASC_KEY_ID: ${{ secrets.APPCONNECT_API_KEY_ID }}
-        # ASC_ISSUER_ID: ${{ secrets.APPCONNECT_API_ISSUER }}
-        # ASC_KEY: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
-        # KEYCHAIN_PATH: ~/Library/Keychains/signing_temp.keychain-db
- 
-      # 7
-      #- name: Upload app-store ipa and dsyms to artifacts
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #   name: app-store ipa & dsyms
-      #   path: |
-      #     ${{ github.workspace }}/example-iOS.ipa
-      #     ${{ github.workspace }}/*.app.dSYM.zip
+          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+          DEVELOPER_APP_ID: '${{ secrets.APPLE_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_USERNAME }}'
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APP_PASSWORD }}'
+          MATCH_PASSWORD: '${{ secrets.DIST_CERT_P12_PASSWORD }}'
+          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.MOBILEPROVISION_BASE64 }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          APPLE_KEY_ID: '${{ secrets.APPCONNECT_API_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPCONNECT_API_ISSUER }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPCONNECT_API_KEY_PRIVATE }}'
