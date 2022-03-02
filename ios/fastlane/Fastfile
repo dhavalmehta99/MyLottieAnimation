@@ -64,7 +64,7 @@ platform :ios do
 		
 		cocoapods(
 		  clean_install: true,
-		  podfile: "../Podfile"
+		  podfile: "../../ios"
 		)
 	
 		match(
