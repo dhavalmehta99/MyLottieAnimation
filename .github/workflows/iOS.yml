@@ -43,7 +43,7 @@ jobs:
       
       # 5
       - name: Install pods
-        run: cd ios && pod install && cd ..
+        run: pod install
       
       # 6
       - name: Deploy iOS Beta to TestFlight via Fastlane
