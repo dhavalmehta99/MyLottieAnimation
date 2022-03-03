@@ -20,11 +20,26 @@ jobs:
       #- run: env
       
       # 1
-      - uses: actions/checkout@v1
+      - name: Checkout Directory
+        uses: actions/checkout@v1
+      
+      # 2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: '10.x'
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: xcode-select -p
+      - name: Install pod dependencies
+      - run: pod install
+        working-directory: ios
+        name: Install pod dependencies
+        
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: '10.x'
       
       # 2
       - name: Set up ruby env
@@ -42,8 +57,8 @@ jobs:
         run: npm install
       
       # 5
-      - name: Install pods
-        run: cd ios && pod install && cd ..
+#       - name: Install pods
+#         run: cd ios && pod install && cd ..
       
       # 6
       - name: Deploy iOS Beta to TestFlight via Fastlane
