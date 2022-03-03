@@ -77,17 +77,17 @@ platform :ios do
 		  keychain_password: TEMP_KEYCHAIN_PASSWORD
 		)
 		
-		# install_provisioning_profile(path: 'distribution.mobileprovision')
-		install_provisioning_profile(path: File.absolute_path("Dist_PushTest.mobileprovision"))
+		install_provisioning_profile(path: "Dist_PushTest.mobileprovision")
+		# install_provisioning_profile(path: File.absolute_path("Dist_PushTest.mobileprovision"))
 		
 		
-		# update_project_provisioning(
-		#   xcodeproj: 'LottieAnimationDemo.xcodeproj',
-		#   target_filter: 'github',
-		#   profile: 'Dist_PushTest.mobileprovision',
-		# #   profile: File.absolute_path("Dist_PushTest.mobileprovision"),
-		#   build_configuration: 'Release'
-		# )
+		update_project_provisioning(
+		  xcodeproj: 'LottieAnimationDemo.xcodeproj',
+		  target_filter: 'LottieAnimationDemo',
+		  profile: 'Dist_PushTest.mobileprovision',
+		#   profile: File.absolute_path("Dist_PushTest.mobileprovision"),
+		  build_configuration: 'Release'
+		)
 
 		api_key = app_store_connect_api_key(
 		  key_id: APPLE_KEY_ID,
