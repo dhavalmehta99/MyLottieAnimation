@@ -253,6 +253,7 @@ platform :ios do
 			workspace: 'LottieAnimationDemo.xcworkspace', 
 			scheme: 'LottieAnimationDemo'
 		)
+		
 
 		# enable_automatic_code_signing(path: "LottieAnimationDemo.xcodeproj")
 		upload_to_testflight(
