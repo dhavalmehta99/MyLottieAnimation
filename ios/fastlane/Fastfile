@@ -46,6 +46,25 @@ def ensure_temp_keychain(name, password)
 end
 
 
+def setupCodeSigning(keychainName, keychainPassword, certificatePassword, profilePath, certificatePath)
+	create_keychain(
+	  name: keychainName,
+	  password: keychainPassword,
+	  default_keychain: true,
+	  unlock: true,
+	  timeout: 3600,
+	  lock_when_sleeps: false
+	)
+	install_provisioning_profile(path: profilePath)
+	import_certificate(
+	  certificate_path: certificatePath,
+	  certificate_password: certificatePassword,
+	  keychain_name: keychainName,
+	  keychain_password: keychainPassword
+	)
+  end
+
+
 platform :ios do
 
 	####################################################################################
@@ -57,48 +76,70 @@ platform :ios do
 
 	lane :temp_release do
 		setup_ci
-		
-		cocoapods(
-			clean_install: true
+
+		update_version
+
+		setupCodeSigning(
+			ENV["TEMP_KEYCHAIN_USER"], 
+			ENV["TEMP_KEYCHAIN_PASSWORD"], 
+			ENV["MATCH_PASSWORD"], # Certificate Password
+			File.absolute_path("Dist_PushTest.mobileprovision"),
+			File.absolute_path("CertificatesDIST.p12")
+			# './path-to-your-profile/your-profile.mobileprovision', 
+			#'./path-to-your-certificate/certificate.p12'
 		)
+
+      	cocoapods(
+			clean_install: true, 
+			use_bundle_exec: false, 
+			error_callback: true
+		)
+
+		build_app(
+			scheme: "your-scheme", 
+			configuration: 'Release'
+		)
+		
+		# cocoapods(
+		# 	clean_install: true
+		# )
 		
 		# cert
 		# sigh(force: true)
 		# match(type: 'appstore')
 		
-		update_version
 		
-		create_keychain(
-			name: "#{TEMP_KEYCHAIN_USER}",
-			password: "#{TEMP_KEYCHAIN_PASSWORD}",
-			timeout: 1800,
-			default_keychain: true,
-			unlock: true,
-			lock_when_sleeps: false
-		)
+		
+		# create_keychain(
+		# 	name: "#{TEMP_KEYCHAIN_USER}",
+		# 	password: "#{TEMP_KEYCHAIN_PASSWORD}",
+		# 	timeout: 1800,
+		# 	default_keychain: true,
+		# 	unlock: true,
+		# 	lock_when_sleeps: false
+		# )
 
-
-		import_certificate(
-		#   certificate_path: 'distribution.p12',
-		#   certificate_password: 'XXXXXXXXXXX',
-		#   certificate_path: '../cert/CertificatesDIST.p12',
-			certificate_path: File.absolute_path("CertificatesDIST.p12"),
-			certificate_password: '123456',
-			keychain_name: "#{TEMP_KEYCHAIN_USER}",
-			keychain_password: "#{TEMP_KEYCHAIN_PASSWORD}"
-		)
+		# import_certificate(
+		# #   certificate_path: 'distribution.p12',
+		# #   certificate_password: 'XXXXXXXXXXX',
+		# #   certificate_path: '../cert/CertificatesDIST.p12',
+		# 	certificate_path: File.absolute_path("CertificatesDIST.p12"),
+		# 	certificate_password: '123456',
+		# 	keychain_name: "#{TEMP_KEYCHAIN_USER}",
+		# 	keychain_password: "#{TEMP_KEYCHAIN_PASSWORD}"
+		# )
 		
-		# install_provisioning_profile(path: "./Dist_PushTest.mobileprovision")
-		install_provisioning_profile(path: File.absolute_path("Dist_PushTest.mobileprovision"))
+		# # install_provisioning_profile(path: "./Dist_PushTest.mobileprovision")
+		# install_provisioning_profile(path: File.absolute_path("Dist_PushTest.mobileprovision"))
 		
 		
-		update_project_provisioning(
-			xcodeproj: 'LottieAnimationDemo.xcodeproj',
-			target_filter: 'LottieAnimationDemo',
-		#   profile: './Dist_PushTest.mobileprovision',
-			profile: File.absolute_path("Dist_PushTest.mobileprovision"),
-			build_configuration: 'Release'
-		)
+		# update_project_provisioning(
+		# 	xcodeproj: 'LottieAnimationDemo.xcodeproj',
+		# 	target_filter: 'LottieAnimationDemo',
+		# #   profile: './Dist_PushTest.mobileprovision',
+		# 	profile: File.absolute_path("Dist_PushTest.mobileprovision"),
+		# 	build_configuration: 'Release'
+		# )
 
 		api_key = app_store_connect_api_key(
 			key_id: "#{APPLE_KEY_ID}",
@@ -107,7 +148,7 @@ platform :ios do
 			key_filepath: File.absolute_path("AuthKey_NWAL8D5A93.p8")
 		)
 		
-		build_app
+		# build_app
 
 		upload_to_testflight(
 			apple_id: "#{DEVELOPER_APP_ID}",
