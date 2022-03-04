@@ -88,8 +88,8 @@ platform :ios do
 		update_project_provisioning(
 		  xcodeproj: 'LottieAnimationDemo.xcodeproj',
 		  target_filter: 'LottieAnimationDemo',
-		  profile: './Dist_PushTest.mobileprovision',
-		#   profile: File.absolute_path("Dist_PushTest.mobileprovision"),
+		#   profile: './Dist_PushTest.mobileprovision',
+		  profile: File.absolute_path("Dist_PushTest.mobileprovision"),
 		  build_configuration: 'Release'
 		)
 
