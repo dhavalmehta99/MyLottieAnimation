@@ -79,15 +79,15 @@ platform :ios do
 
 		update_version
 
-		setupCodeSigning(
-			ENV["TEMP_KEYCHAIN_USER"], 
-			ENV["TEMP_KEYCHAIN_PASSWORD"], 
-			ENV["MATCH_PASSWORD"], # Certificate Password
-			File.absolute_path("Dist_PushTest.mobileprovision"),
-			File.absolute_path("CertificatesDIST.p12")
-			# './path-to-your-profile/your-profile.mobileprovision', 
-			#'./path-to-your-certificate/certificate.p12'
-		)
+		# setupCodeSigning(
+		# 	ENV["TEMP_KEYCHAIN_USER"], 
+		# 	ENV["TEMP_KEYCHAIN_PASSWORD"], 
+		# 	ENV["MATCH_PASSWORD"], # Certificate Password
+		# 	File.absolute_path("Dist_PushTest.mobileprovision"),
+		# 	File.absolute_path("CertificatesDIST.p12")
+		# 	# './path-to-your-profile/your-profile.mobileprovision', 
+		# 	#'./path-to-your-certificate/certificate.p12'
+		# )
 
       	cocoapods(
 			clean_install: true, 
@@ -95,10 +95,30 @@ platform :ios do
 			error_callback: true
 		)
 
-		build_app(
-			scheme: "your-scheme", 
-			configuration: 'Release'
-		)
+		# Import the appstore code signing
+		match(
+			type: "appstore",
+			keychain_name: ENV["TEMP_KEYCHAIN_USER"],
+			keychain_password: ENV["TEMP_KEYCHAIN_PASSWORD"],
+			readonly: true
+		  )
+		
+		  # Building the iOS app
+		  gym(
+			workspace: "./LottieAnimationDemo.xcworkspace",
+			include_bitcode: true,
+			include_symbols: true,
+			silent: true,
+			clean: true,
+			scheme: "LottieAnimationDemo",
+			export_method: "app-store",
+			export_xcargs: "-allowProvisioningUpdates"
+		  )
+
+		# build_app(
+		# 	scheme: "LottieAnimationDemo", 
+		# 	configuration: 'Release'
+		# )
 		
 		# cocoapods(
 		# 	clean_install: true
