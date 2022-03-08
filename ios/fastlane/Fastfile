@@ -94,7 +94,7 @@ platform :ios do
 		# Create a custom keychain for code signing
 		setup_ci
 
-		update_version
+		# update_version
 
 		# cert(
 		# 	api_key: api_key,
