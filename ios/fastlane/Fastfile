@@ -118,7 +118,7 @@ platform :ios do
 			method: "app-store",
 			provisioningProfiles: {
 				# app_identifier => File.absolute_path("Dist_PushTest.mobileprovision")
-				app_identifier => "Dist_PushTest"
+				"com.logistic.pushtest" => "Dist_PushTest"
 			},
 			compileBitcode: true
 			}
