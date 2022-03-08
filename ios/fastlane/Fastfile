@@ -89,6 +89,8 @@ platform :ios do
 			key_filepath: File.absolute_path("AuthKey_NWAL8D5A93.p8")
 		)
 
+		ensure_temp_keychain(keychainName, keychainPassword)
+
 		# Create a custom keychain for code signing
 		setup_ci
 
@@ -99,15 +101,25 @@ platform :ios do
 		# 	keychain_path: "~/Library/Keychains/login.keychain-db" # the path to the keychain where your certificates are stored
 		# )
 
-		update_code_signing_settings(
-			use_automatic_signing: false,
-			targets: ["LottieAnimationDemo"], # specify which targets to update code signing settings for
-			code_sign_identity: "Apple Distribution", # replace with name of code signing identity if different
-			bundle_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-			# profile_name: File.absolute_path("Dist_PushTest.mobileprovision"),
-			profile_name: "Dist_PushTest",
-			build_configurations: ["Release"] # only toggle code signing settings for Release configurations
-		)
+		match(
+			type: 'appstore',
+			app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+			git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
+			readonly: true,
+			keychain_name: keychainName,
+			keychain_password: keychainPassword,
+			api_key: api_key
+			)
+
+		# update_code_signing_settings(
+		# 	use_automatic_signing: false,
+		# 	targets: ["LottieAnimationDemo"], # specify which targets to update code signing settings for
+		# 	code_sign_identity: "Apple Distribution", # replace with name of code signing identity if different
+		# 	bundle_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+		# 	# profile_name: File.absolute_path("Dist_PushTest.mobileprovision"),
+		# 	profile_name: "Dist_PushTest",
+		# 	build_configurations: ["Release"] # only toggle code signing settings for Release configurations
+		# )
 
 		# build the app
 		gym(
@@ -118,7 +130,8 @@ platform :ios do
 			method: "app-store",
 			provisioningProfiles: {
 				# app_identifier => File.absolute_path("Dist_PushTest.mobileprovision")
-				"com.logistic.pushtest" => "Dist_PushTest"
+				# "com.logistic.pushtest" => "Dist_PushTest"
+				"com.logistic.pushtest" => "AppStore com.logistic.pushtest"
 			},
 			compileBitcode: true
 			}
