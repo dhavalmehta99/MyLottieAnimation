@@ -61,8 +61,7 @@ jobs:
       
       # 6
       - name: Deploy iOS Beta to TestFlight via Fastlane
-#         run: cd ios && fastlane temp_release
-        run: cd ios && fastlane github
+        run: cd ios && fastlane build
 
 #         uses: maierj/fastlane-action@v1.4.0
 #         with:
