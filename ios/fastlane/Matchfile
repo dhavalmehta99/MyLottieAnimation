@@ -1,5 +1,5 @@
-# git_url("https://github.com/dhavalmehta99/certificate") # Change to this when trigger fastlane CICD command
-git_url("git@github.com:dhavalmehta99/certificate.git") # For push to Git, First time when we trigger fastlane match init
+git_url("https://github.com/dhavalmehta99/certificate") # Change to this when trigger fastlane CICD command
+# git_url("git@github.com:dhavalmehta99/certificate.git") # For push to Git, First time when we trigger fastlane match init
 git_branch("master")
 
 storage_mode("git")
