@@ -40,7 +40,7 @@ jobs:
           p12-base64: ${{ secrets.P12_BASE64 }}
           mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
           code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
-          certificate-password: ${{ secrets.CODE_SIGNING_IDENTITY }}
+          certificate-password: ${{ secrets.DIST_CERT_P12_PASSWORD }}
           team-id: ${{ secrets.TEAM_ID }}
           #output-path: artifacts/output.ipa
           output-path: ios/releaseLottieAnimationDemo.ipa
