@@ -13,17 +13,11 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      #- name: Check out the directory
-      #  uses: actions/checkout@v2
-      #  #run: echo " Print a single environment variable (the commit SHA ) - ${{ github.sha }} "
-      #- run: echo "Print all environment variables - $ {{env}} "
-      #- run: env
-      
       # 1
       - name: Checkout iOS repository
         uses: actions/checkout@v2
     
-    # 2
+      # 2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -35,50 +29,39 @@ jobs:
         working-directory: ios
         name: Install pod dependencies
         
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: '10.x'
-      
-      # 2
-      - name: Set up ruby env
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6.8 # Used this version in local
-          bundler-cache: true
-      
       # 3
-      - name: Install Fastlane
-        run: cd ios && bundle install && cd ..
-
+      - name: Generate release iPA
+        uses: yukiarrr/ios-build-action@v1.5.0
+        with:
+          project-path: ios/LottieAnimationDemo.xcodeproj
+          export-method: app-store
+          scheme: LottieAnimationDemo
+          configuration: Release
+          p12-base64: ${{ secrets.P12_BASE64 }}
+          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+          certificate-password: ${{ secrets.CODE_SIGNING_IDENTITY }}
+          team-id: ${{ secrets.TEAM_ID }}
+          #output-path: artifacts/output.ipa
+          output-path: ios/releaseLottieAnimationDemo.ipa
+          workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
+      
       # 4
-      - name: Install packages
-        run: npm install
-      
+      - name: Upload Artifact - iPA File
+        uses: actions/upload-artifact@v2
+        with:
+          name: releaseLottieAnimationDemo.ipa
+          #name: lottieAnimationDemo-app-release.aab
+          #path: android/app/build/outputs/apk/release/
+          # path: artifacts/
+          path: ios/
+          retention-days: 1
+          
       # 5
-#       - name: Install pods
-#         run: cd ios && pod install && cd ..
-      
-      # 6
-      - name: Deploy iOS Beta to TestFlight via Fastlane
-        run: cd ios && fastlane build
-
-#         uses: maierj/fastlane-action@v1.4.0
-#         with:
-#           lane: closed_beta
-#           subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-          DEVELOPER_APP_ID: '${{ secrets.APPLE_ID }}'
-          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
-          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_USERNAME }}'
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APP_PASSWORD }}'
-          MATCH_PASSWORD: '${{ secrets.DIST_CERT_P12_PASSWORD }}'
-          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.MOBILEPROVISION_BASE64 }}'
-          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          APPLE_KEY_ID: '${{ secrets.APPCONNECT_API_KEY_ID }}'
-          APPLE_ISSUER_ID: '${{ secrets.APPCONNECT_API_ISSUER }}'
-          APPLE_KEY_CONTENT: '${{ secrets.APPCONNECT_API_KEY_PRIVATE }}'
+      - name: Upload app to TestFlight
+        uses: apple-actions/upload-testflight-build@v1
+        with: 
+          app-path: ios/releaseLottieAnimationDemo.ipa
+          issuer-id: ${{ secrets.APPCONNECT_API_ISSUER }}
+          api-key-id: ${{ secrets.APPCONNECT_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
