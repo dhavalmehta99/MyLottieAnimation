@@ -16,52 +16,55 @@ jobs:
       # 1
       - name: Checkout iOS repository
         uses: actions/checkout@v2
+      
+      - run: echo "Print all environment variables - $ {{env}} "
+      - run: env
     
       # 2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
-      - run: xcode-select -p
-      - run: pod install
-        working-directory: ios
-        name: Install pod dependencies
+      #- name: Use Node.js ${{ matrix.node-version }}
+      #  uses: actions/setup-node@v2
+      #  with:
+      #    node-version: ${{ matrix.node-version }}
+      #    cache: 'npm'
+      #- run: npm ci
+      #- run: xcode-select -p
+      #- run: pod install
+      #  working-directory: ios
+      #  name: Install pod dependencies
         
       # 3
-      - name: Generate release iPA
-        uses: yukiarrr/ios-build-action@v1.5.0
-        with:
-          project-path: ios/LottieAnimationDemo.xcodeproj
-          export-method: app-store
-          scheme: LottieAnimationDemo
-          configuration: Release
-          p12-base64: ${{ secrets.P12_BASE64 }}
-          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
-          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
-          certificate-password: ${{ secrets.DIST_CERT_P12_PASSWORD }}
-          team-id: ${{ secrets.TEAM_ID }}
-          #output-path: artifacts/output.ipa
-          output-path: ios/releaseLottieAnimationDemo.ipa
-          workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
+      #- name: Generate release iPA
+      #  uses: yukiarrr/ios-build-action@v1.5.0
+      #  with:
+      #    project-path: ios/LottieAnimationDemo.xcodeproj
+      #    export-method: app-store
+      #    scheme: LottieAnimationDemo
+      #    configuration: Release
+      #    p12-base64: ${{ secrets.P12_BASE64 }}
+      #    mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+      #    code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+      #    certificate-password: ${{ secrets.DIST_CERT_P12_PASSWORD }}
+      #    team-id: ${{ secrets.TEAM_ID }}
+      #    #output-path: artifacts/output.ipa
+      #    output-path: ios/releaseLottieAnimationDemo.ipa
+      #    workspace-path: ios/LottieAnimationDemo.xcworkspace # optional
       
       # 4
-      - name: Upload Artifact - iPA File
-        uses: actions/upload-artifact@v2
-        with:
-          name: releaseLottieAnimationDemo.ipa
-          #name: lottieAnimationDemo-app-release.aab
-          #path: android/app/build/outputs/apk/release/
-          # path: artifacts/
-          path: ios/
-          retention-days: 1
+      #- name: Upload Artifact - iPA File
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: releaseLottieAnimationDemo.ipa
+      #    #name: lottieAnimationDemo-app-release.aab
+      #    #path: android/app/build/outputs/apk/release/
+      #    # path: artifacts/
+      #    path: ios/
+      #    retention-days: 1
           
       # 5
-      - name: Upload app to TestFlight
-        uses: apple-actions/upload-testflight-build@v1
-        with: 
-          app-path: ios/releaseLottieAnimationDemo.ipa
-          issuer-id: ${{ secrets.APPCONNECT_API_ISSUER }}
-          api-key-id: ${{ secrets.APPCONNECT_API_KEY_ID }}
-          api-private-key: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
+      #- name: Upload app to TestFlight
+      #  uses: apple-actions/upload-testflight-build@v1
+      #  with: 
+      #    app-path: ios/releaseLottieAnimationDemo.ipa
+      #    issuer-id: ${{ secrets.APPCONNECT_API_ISSUER }}
+      #    api-key-id: ${{ secrets.APPCONNECT_API_KEY_ID }}
+      #    api-private-key: ${{ secrets.APPCONNECT_API_KEY_PRIVATE }}
