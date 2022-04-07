@@ -37,10 +37,12 @@ const Home = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                <Text style={{
-                    fontSize: 32,
-                    fontWeight: 'bold'
-                }}>Lottie Animation</Text>
+                <Text
+                    testID="label"
+                    style={{
+                        fontSize: 32,
+                        fontWeight: 'bold'
+                    }}>Lottie Animation</Text>
 
                 {/* Star Animation View - TOGGLE */}
                 <View>
@@ -51,6 +53,7 @@ const Home = () => {
                         marginTop: 15
                     }}>
                         <LottieView
+                            testID="starLottie"
                             ref={animationStar}
                             source={require('../../LottieFiles/lottie_star.json')}
                             autoPlay={false}
@@ -58,7 +61,9 @@ const Home = () => {
                         />
                     </View>
                     <TouchableOpacity
+                        testID={'smileEmojiButton'}
                         onPress={onPressStarToggleAnimation}
+                        accessibilityLabel="smileEmojiButton"
                         style={{
                             backgroundColor: '#666',
                             paddingHorizontal: 20,

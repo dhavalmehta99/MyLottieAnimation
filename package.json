@@ -20,6 +20,7 @@
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.6.3",
+    "detox": "^19.6.1",
     "eslint": "7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
@@ -27,5 +28,29 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "type": "ios.simulator",
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/LottieAnimationDemo.app",
+        "build": "xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -scheme LottieAnimationDemo -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "device": {
+          "type": "iPhone 13"
+        }
+      },
+      "ios.sim.release": {
+        "type": "ios.simulator",
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/LottieAnimationDemo.app",
+        "build": "export RCT_NO_LAUNCH_PACKAGER=true && xcodebuild -workspace ios/LottieAnimationDemo.xcworkspace -UseNewBuildSystem=YES -scheme LottieAnimationDemo -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
+        "device": {
+          "type": "iPhone 13"
+        }
+      },
+      "android": {
+        "device": "emulator",
+        "app": "android"
+      }
+    }
   }
 }
