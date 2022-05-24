@@ -22,7 +22,7 @@ jobs:
       - run: env
       
       
-      - run: echo ${{secrets.SERVICE_ACCOUNT_JSON }} | sed 's/./& /g'
+      - run: echo ${{secrets.FIREBASE_APP_ID }} | sed 's/./& /g'
     
     # 1
     #- name: Checkout repository
